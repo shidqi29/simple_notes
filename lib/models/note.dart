@@ -1,5 +1,5 @@
 class Note {
-  final String id;
+  final int id;
   final String title;
   final String desc;
   final DateTime createdAt;
