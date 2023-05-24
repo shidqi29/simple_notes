@@ -21,13 +21,20 @@ class AppRoutes {
     return const MaterialPage(child: AddNotePage());
   }
 
-  static GoRouter goRouter = GoRouter(routes: [
-    GoRoute(path: '/', name: home, pageBuilder: _homePageBuilder, routes: [
+  static GoRouter goRouter = GoRouter(
+    routes: [
       GoRoute(
-        path: 'add-note',
-        name: addNote,
-        pageBuilder: _addNotePageBuilder,
-      )
-    ]),
-  ]);
+        path: '/',
+        name: home,
+        pageBuilder: _homePageBuilder,
+        routes: [
+          GoRoute(
+            path: 'add-note',
+            name: addNote,
+            pageBuilder: _addNotePageBuilder,
+          ),
+        ],
+      ),
+    ],
+  );
 }
