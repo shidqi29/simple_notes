@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:simple_notes/db/database_service.dart';
+import 'package:simple_notes/models/note.dart';
 
 class AddNotePage extends StatefulWidget {
   const AddNotePage({super.key});
@@ -13,6 +15,8 @@ class _AddNotePageState extends State<AddNotePage> {
 
   late TextEditingController _titleController;
   late TextEditingController _descController;
+
+  DatabaseService dbService = DatabaseService();
 
   @override
   void initState() {
@@ -39,6 +43,7 @@ class _AddNotePageState extends State<AddNotePage> {
           child: Column(
             children: [
               TextFormField(
+                controller: _titleController,
                 style: const TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
@@ -53,6 +58,7 @@ class _AddNotePageState extends State<AddNotePage> {
                 ),
               ),
               TextFormField(
+                controller: _descController,
                 maxLines: null,
                 style: const TextStyle(
                   fontSize: 14,
@@ -72,7 +78,13 @@ class _AddNotePageState extends State<AddNotePage> {
         ),
       ),
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {
+        onPressed: () async {
+          Note note = Note(
+            _titleController.text,
+            _descController.text,
+            DateTime.now(),
+          );
+          await dbService.addNote(note);
           GoRouter.of(context).pop();
         },
         label: const Text('Simpan'),
