@@ -66,20 +66,18 @@ class NoteCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Dismissible(
       key: Key(note.key.toString()),
-      onDismissed: (direction) {
-        if (direction == DismissDirection.endToStart) {
-          databaseService.deleteNote(note).then(
-                (value) => {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      behavior: SnackBarBehavior.floating,
-                      backgroundColor: Colors.red,
-                      content: Text("Catatan Berhasil Dihapus"),
-                    ),
+      onDismissed: (_) {
+        databaseService.deleteNote(note).then(
+              (value) => {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    behavior: SnackBarBehavior.floating,
+                    backgroundColor: Colors.red,
+                    content: Text("Catatan Berhasil Dihapus"),
                   ),
-                },
-              );
-        }
+                ),
+              },
+            );
       },
       child: Container(
         margin: const EdgeInsets.symmetric(
@@ -99,6 +97,12 @@ class NoteCard extends StatelessWidget {
           ),
           subtitle: Text(note.desc),
           trailing: Text('Dibuat pada:\n ${note.createdAt.formatDate()}'),
+          onTap: () {
+            GoRouter.of(context).pushNamed(
+              'edit-note',
+              extra: note,
+            );
+          },
         ),
       ),
     );
